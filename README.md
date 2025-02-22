@@ -23,8 +23,6 @@ Clone the repo
 4. Backend will run on [http://localhost:5000](http://localhost:5000)
 5. Put a .evn in your backend folder with this in it
 
-```
-
 # Technologies
 
 **Frontend**
@@ -37,4 +35,3 @@ Clone the repo
 - Node.js
 - Express
 - MySQL
-```
