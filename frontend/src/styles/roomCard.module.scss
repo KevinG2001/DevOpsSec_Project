@@ -1,0 +1,51 @@
+.lastestRoomContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.latestRoomTitle {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.latestRoomWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.roomCard {
+  flex: 1 1 calc(25% - 20px);
+  max-width: 250px;
+  background-color: grey;
+  border-radius: 25px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+
+@media (max-width: 1024px) {
+  .roomCard {
+    flex: 1 1 calc(50% - 20px);
+  }
+}
+
+@media (max-width: 600px) {
+  .roomCard {
+    flex: 1 1 100%;
+  }
+}

@@ -10,8 +10,11 @@ app.use(cors());
 app.use(express.json());
 
 //Routes
-const usersRoute = require("./routes/users"); 
+const usersRoute = require("./routes/users");
 app.use("/users", usersRoute);
+
+const roomsRoutes = require("./routes/rooms");
+app.use("/rooms", roomsRoutes);
 
 // Test route
 app.get("/", (req, res) => {
