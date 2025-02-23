@@ -9,6 +9,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+//Routes
+const usersRoute = require("./routes/users"); 
+app.use("/users", usersRoute);
+
 // Test route
 app.get("/", (req, res) => {
   res.json({ message: "Backend is running!" });
