@@ -13,6 +13,9 @@ app.use(express.json());
 const usersRoute = require("./routes/users"); 
 app.use("/users", usersRoute);
 
+const authRoutes = require("./routes/auth");
+app.use("/api/auth", authRoutes);
+
 // Test route
 app.get("/", (req, res) => {
   res.json({ message: "Backend is running!" });
