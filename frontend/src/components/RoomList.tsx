@@ -9,6 +9,7 @@ const RoomList = ({ fetchUrl }) => {
       try {
         const response = await fetch(fetchUrl);
         const data = await response.json();
+        console.log(data);
         setRooms(data);
       } catch (err) {
         console.error("Error fetching rooms", err);
@@ -24,8 +25,15 @@ const RoomList = ({ fetchUrl }) => {
         <div className={Style.latestRoomWrapper}>
           {rooms.map((room) => (
             <div key={room.roomid} className={Style.roomCard}>
-              <div>{room.roomname}</div>
-              <div>€{room.roomprice}</div>
+              <img
+                src={room.roomurl}
+                alt={room.roomname}
+                className={Style.roomImage}
+              />
+              <div className={Style.roomContent}>
+                <div>{room.roomname}</div>
+                <div>€{room.roomprice}</div>
+              </div>
             </div>
           ))}
         </div>

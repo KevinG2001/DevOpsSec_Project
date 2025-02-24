@@ -20,21 +20,36 @@
   align-items: center;
   gap: 20px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1600px;
 }
-
 .roomCard {
   flex: 1 1 calc(25% - 20px);
-  max-width: 250px;
+  max-width: 350px;
   background-color: grey;
   border-radius: 25px;
-  height: 300px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: white;
+  text-align: center;
+  padding: 0;
+}
+
+.roomImage {
+  width: 100%;
+  height: 50%;
+  object-fit: cover;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+.roomContent {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
-  text-align: center;
+  height: 50%;
   padding: 15px;
 }
 
