@@ -14,13 +14,22 @@ const Login: React.FC = () => {
     setError(null);
 
     try {
-      const res = await axios.post<{ token: string }>(
+      const res = await axios.post<{ token: string; isAdmin: boolean }>(
         "http://localhost:5000/api/auth/login",
         { email, password }
       );
+
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("isAdmin", res.data.isAdmin.toString()); // Store isAdmin status
+
       console.log("Login successful!");
-      navigate("/home");
+
+      // Redirect based on user role
+      if (res.data.isAdmin) {
+        navigate("/admin-dashboard"); // Redirect to admin page
+      } else {
+        navigate("/home"); // Redirect to regular user dashboard
+      }
     } catch (error: any) {
       setError(error.response?.data?.error || "Invalid login credentials");
     }
@@ -29,8 +38,6 @@ const Login: React.FC = () => {
   return (
     <div className={styles.authContainer}>
       <div className={styles.authCard}>
-        {" "}
-        {/* Apply card styling */}
         <h2>Login</h2>
         {error && <p className={styles.error}>{error}</p>}
         <form onSubmit={handleLogin}>

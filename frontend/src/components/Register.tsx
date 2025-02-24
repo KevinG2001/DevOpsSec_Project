@@ -19,7 +19,7 @@ const Register: React.FC = () => {
     try {
       const res = await axios.post(
         "http://localhost:5000/api/auth/register",
-        { firstname, surname, email, password } // ✅ Sending required fields
+        { firstname, surname, email, password } // Sending required fields
       );
       localStorage.setItem("token", res.data.token);
       setSuccess(true);

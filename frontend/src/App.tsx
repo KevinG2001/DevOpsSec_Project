@@ -15,6 +15,7 @@ function Layout() {
   const hideNavbar =
     location.pathname === "/" || location.pathname === "/register";
 
+
   return (
     <>
       {!hideNavbar && <Navbar />}{" "}

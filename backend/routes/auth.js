@@ -9,7 +9,7 @@ const router = express.Router();
 // User Registration
 router.post("/register", async (req, res) => {
   try {
-    const { firstname, surname, email, password } = req.body;
+    const { firstname, surname, email, password, isAdmin = false } = req.body; // Default isAdmin to false
 
     // Validate input
     if (!firstname || !surname || !email || !password) {
@@ -29,10 +29,10 @@ router.post("/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Insert user into database
+    // Insert user into database with isAdmin
     const newUser = await pool.query(
-      "INSERT INTO users (firstname, surname, email, password) VALUES ($1, $2, $3, $4) RETURNING *",
-      [firstname, surname, email, hashedPassword]
+      "INSERT INTO users (firstname, surname, email, password, isadmin) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [firstname, surname, email, hashedPassword, isAdmin]
     );
 
     res.status(201).json({
@@ -61,12 +61,18 @@ router.post("/login", async (req, res) => {
 
     // Compare entered password with stored hashed password
     const isMatch = await bcrypt.compare(password, user.rows[0].password);
-
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid password" });
     }
 
-    res.json({ message: "Login successful!" });
+    // Generate JWT token with isAdmin included
+    const token = jwt.sign(
+      { userID: user.rows[0].id, isAdmin: user.rows[0].isadmin },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.json({ message: "Login successful!", token, isAdmin: user.rows[0].isadmin });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
