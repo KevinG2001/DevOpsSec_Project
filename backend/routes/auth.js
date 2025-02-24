@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const pool = require("../database"); 
+const pool = require("../database");
 require("dotenv").config();
 
 const router = express.Router();
@@ -17,7 +17,10 @@ router.post("/register", async (req, res) => {
     }
 
     // Check if user already exists
-    const existingUser = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    const existingUser = await pool.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email]
+    );
     if (existingUser.rows.length > 0) {
       return res.status(400).json({ error: "User already exists" });
     }
@@ -32,8 +35,10 @@ router.post("/register", async (req, res) => {
       [firstname, surname, email, hashedPassword]
     );
 
-    res.status(201).json({ message: "User registered successfully!", user: newUser.rows[0] });
-
+    res.status(201).json({
+      message: "User registered successfully!",
+      user: newUser.rows[0],
+    });
   } catch (error) {
     console.error("Server error:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -46,7 +51,9 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     // Find user by email
-    const user = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    const user = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
 
     if (user.rows.length === 0) {
       return res.status(400).json({ error: "User not found" });
@@ -60,7 +67,6 @@ router.post("/login", async (req, res) => {
     }
 
     res.json({ message: "Login successful!" });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
@@ -68,4 +74,3 @@ router.post("/login", async (req, res) => {
 });
 
 module.exports = router;
-

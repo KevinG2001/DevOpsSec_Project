@@ -1,12 +1,13 @@
 import React, { useState, FormEvent } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/login.module.scss"; // Import styles
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,6 +20,7 @@ const Login: React.FC = () => {
       );
       localStorage.setItem("token", res.data.token);
       console.log("Login successful!");
+      navigate("/home");
     } catch (error: any) {
       setError(error.response?.data?.error || "Invalid login credentials");
     }
@@ -26,11 +28,11 @@ const Login: React.FC = () => {
 
   return (
     <div className={styles.authContainer}>
-      <div className={styles.authCard}> {/* Apply card styling */}
+      <div className={styles.authCard}>
+        {" "}
+        {/* Apply card styling */}
         <h2>Login</h2>
-
         {error && <p className={styles.error}>{error}</p>}
-
         <form onSubmit={handleLogin}>
           <input
             type="email"
@@ -48,9 +50,10 @@ const Login: React.FC = () => {
             className={styles.input}
             required
           />
-          <button type="submit" className={styles.button}>Login</button>
+          <button type="submit" className={styles.button}>
+            Login
+          </button>
         </form>
-
         <p className={styles.redirectText}>
           Don't have an account?{" "}
           <Link to="/register" className={styles.authLink}>

@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import styles from "../styles/login.module.scss"; // Import shared styles
 
 const Register: React.FC = () => {
-  const [username, setUsername] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -16,9 +17,9 @@ const Register: React.FC = () => {
     setSuccess(false);
 
     try {
-      const res = await axios.post<{ token: string }>(
+      const res = await axios.post(
         "http://localhost:5000/api/auth/register",
-        { username, email, password }
+        { firstname, surname, email, password } // ✅ Sending required fields
       );
       localStorage.setItem("token", res.data.token);
       setSuccess(true);
@@ -30,7 +31,7 @@ const Register: React.FC = () => {
 
   return (
     <div className={styles.authContainer}>
-      <div className={styles.authCard}> {/* Apply card styling */}
+      <div className={styles.authCard}>
         <h2>Register</h2>
 
         {error && <p className={styles.error}>{error}</p>}
@@ -43,9 +44,17 @@ const Register: React.FC = () => {
         <form onSubmit={handleRegister}>
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Username"
+            value={firstname}
+            onChange={(e) => setFirstname(e.target.value)}
+            placeholder="First Name"
+            className={styles.input}
+            required
+          />
+          <input
+            type="text"
+            value={surname}
+            onChange={(e) => setSurname(e.target.value)}
+            placeholder="Surname"
             className={styles.input}
             required
           />
@@ -65,7 +74,9 @@ const Register: React.FC = () => {
             className={styles.input}
             required
           />
-          <button type="submit" className={styles.button}>Register</button>
+          <button type="submit" className={styles.button}>
+            Register
+          </button>
         </form>
 
         <p className={styles.redirectText}>
