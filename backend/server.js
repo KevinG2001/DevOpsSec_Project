@@ -16,6 +16,9 @@ app.use("/users", usersRoute);
 const roomsRoutes = require("./routes/rooms");
 app.use("/rooms", roomsRoutes);
 
+const authRoutes = require("./routes/auth");
+app.use("/api/auth", authRoutes);
+
 // Test route
 app.get("/", (req, res) => {
   res.json({ message: "Backend is running!" });

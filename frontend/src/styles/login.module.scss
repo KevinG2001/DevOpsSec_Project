@@ -1,0 +1,79 @@
+// Dark mode styling
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #121212; // Dark mode background
+  color: #ffffff;
+}
+
+.auth-card {
+  background: #1e1e1e; // Card color (contrasts with background)
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); // Soft shadow for a card effect
+  width: 400px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #2c2c2c; // Darker input fields
+  color: #ffffff;
+}
+
+.button {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 1rem;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #ff4b4b;
+  }
+}
+
+.error {
+  color: #ff6b6b;
+  margin-bottom: 1rem;
+}
+
+.success {
+  color: #4caf50;
+  margin-bottom: 1rem;
+}
+
+.redirect-text {
+  margin-top: 1rem;
+}
+
+.auth-link {
+  color: #ff6b6b;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
