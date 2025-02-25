@@ -1,7 +1,7 @@
 import React, { useState, FormEvent } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "../styles/login.module.scss"; // Import styles
+import styles from "../styles/login.module.scss";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -20,9 +20,6 @@ const Login: React.FC = () => {
       );
 
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("isAdmin", res.data.isAdmin.toString()); // Store isAdmin status
-
-      console.log("Login successful!");
 
       // Redirect based on user role
       if (res.data.isAdmin) {
