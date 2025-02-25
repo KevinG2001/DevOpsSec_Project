@@ -77,7 +77,8 @@ const RoomList = ({ fetchUrl }) => {
         <BookingModal
           room={selectedRoom}
           isOpen={isModalOpen}
-          onClose={closeModal}
+          onClose={closeModal} 
+          userID={userID}        
         />
       )}
     </>

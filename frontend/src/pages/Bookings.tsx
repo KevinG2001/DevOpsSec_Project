@@ -43,7 +43,7 @@ function Bookings() {
 
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(`/bookings/all/${userId}`);
+        const response = await axios.get(`http://localhost:5000/api/bookings/all/${userId}`);
         const data = Array.isArray(response.data)
           ? response.data
           : response.data.bookings || [];

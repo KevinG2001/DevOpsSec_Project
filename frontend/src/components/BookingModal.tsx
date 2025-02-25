@@ -1,6 +1,21 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Style from "../styles/bookingModal.module.scss";
+import { jwtDecode } from "jwt-decode";
+
+// Extract user ID from token
+const token = localStorage.getItem("token");
+let decodedUserID: number | null = null;
+
+if (token) {
+  try {
+    const decoded = jwtDecode<{ userID: number }>(token); // Ensure correct type
+    decodedUserID = decoded.userID;
+    console.log("Decoded User ID:", decodedUserID);
+  } catch (error) {
+    console.error("Error decoding token:", error);
+  }
+}
 
 interface Room {
   roomID: number;
@@ -13,10 +28,9 @@ interface BookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   userID: number;
-  firstname: string;
 }
 
-const BookingModal: React.FC<BookingModalProps> = ({room, isOpen, onClose, userID, firstname, }) => {
+const BookingModal: React.FC<BookingModalProps> = ({ room, isOpen, onClose, userID }) => {
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,32 +39,48 @@ const BookingModal: React.FC<BookingModalProps> = ({room, isOpen, onClose, userI
 
   if (!isOpen || !room) return null;
 
+  // Use prop userID if available, otherwise use decoded token value
+  const finalUserID = userID || decodedUserID;
+
   const handleBooking = async () => {
-    // Validate that both dates are selected
     if (!checkInDate || !checkOutDate) {
       setError("Please select both check-in and check-out dates.");
       return;
     }
 
-    // Clear any previous errors
+    if (!finalUserID) {
+      setError("User ID not found. Please log in again.");
+      return;
+    }
+
+    if (!room || !room.roomID) { // Ensure roomID exists
+      setError("Room information is missing.");
+      return;
+    }
+
     setError(null);
     setLoading(true);
 
     try {
-      // POST booking details to backend
-      const response = await axios.post("/api/bookings", {
-        roomID: room.roomID,
-        userID,
-        firstname,
-        dateStart: checkInDate,
-        dateEnd: checkOutDate,
+      console.log("Sending booking data:", {
+        roomid: room.roomID,
+        userid: finalUserID,
+        datestart: checkInDate,
+        dateend: checkOutDate,
       });
+
+      const response = await axios.post("http://localhost:5000/api/bookings", {
+        roomid: room.roomID,
+        userid: finalUserID,
+        datestart: checkInDate,
+        dateend: checkOutDate,
+      });
+
       console.log("Booking successful:", response.data);
       setSuccess(true);
     } catch (err: any) {
-      setError(
-        err.response?.data?.error || "Booking failed. Please try again later."
-      );
+      console.error("Error creating booking:", err);
+      setError(err.response?.data?.error || "Booking failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -59,9 +89,7 @@ const BookingModal: React.FC<BookingModalProps> = ({room, isOpen, onClose, userI
   return (
     <div className={Style.modalOverlay} onClick={onClose}>
       <div className={Style.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button className={Style.closeButton} onClick={onClose}>
-          X
-        </button>
+        <button className={Style.closeButton} onClick={onClose}>X</button>
         <h2>Booking for {room.roomname}</h2>
         <p>€{room.roomprice} per night</p>
 
