@@ -22,6 +22,7 @@
   width: 100%;
   max-width: 1600px;
 }
+
 .roomCard {
   flex: 1 1 calc(25% - 20px);
   max-width: 350px;
@@ -31,7 +32,8 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  color: white;
+  color: #1e293b;
+  background-color: #cbccce;
   text-align: center;
   padding: 0;
   cursor: pointer;
