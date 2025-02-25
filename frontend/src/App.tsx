@@ -9,6 +9,7 @@ import Register from "./components/Register";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import RoomList from "./components/RoomList";
+import Bookings from "./pages/Bookings";
 
 function Layout() {
   const location = useLocation();
@@ -27,6 +28,7 @@ function Layout() {
           path="/rooms"
           element={<RoomList fetchUrl="http://localhost:5000/rooms/all" />}
         />
+        <Route path="/bookings" element={<Bookings />} />
       </Routes>
     </>
   );

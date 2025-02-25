@@ -26,7 +26,7 @@ function Navbar() {
             Rooms
           </div>
           <div className={Style.navLink} onClick={goToLink}>
-            Booking
+            Bookings
           </div>
           {/* Logout button does not have function yet */}
           <div className={Style.navLink}>Logout</div>
