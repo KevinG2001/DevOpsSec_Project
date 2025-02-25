@@ -67,7 +67,7 @@ router.post("/login", async (req, res) => {
 
     // Generate JWT token with isAdmin included
     const token = jwt.sign(
-      { userID: user.rows[0].id, isAdmin: user.rows[0].isadmin },
+      { userID: user.rows[0].userid, isAdmin: user.rows[0].isadmin },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
