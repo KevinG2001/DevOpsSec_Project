@@ -1,6 +1,6 @@
 import Style from "../styles/roomModal.module.scss";
 
-const RoomModal = ({ room, isOpen, onClose }) => {
+const RoomModal = ({ room, isOpen, onClose, onBook }) => {
   if (!isOpen || !room) return null;
 
   return (
@@ -19,8 +19,9 @@ const RoomModal = ({ room, isOpen, onClose }) => {
           <div>{room.roomdescription}</div>
           <div>€{room.roomprice}</div>
           <div className={Style.modalBtnWrapper}>
-            {/* If admin can have buttons here */}
-            <button className={Style.modalBtn}>Book</button>
+            <button className={Style.modalBtn} onClick={onBook}>
+              Book
+            </button>
           </div>
         </div>
       </div>

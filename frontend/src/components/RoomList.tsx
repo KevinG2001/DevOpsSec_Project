@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
 import Style from "../styles/roomCard.module.scss";
 import RoomModal from "./RoomModal";
+import BookingModal from "./BookingModal";
 
 const RoomList = ({ fetchUrl }) => {
   const [rooms, setRooms] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState("room");
 
   useEffect(() => {
     const fetchRooms = async () => {
       try {
         const response = await fetch(fetchUrl);
         const data = await response.json();
+        console.log(data);
         setRooms(data);
       } catch (err) {
         console.error("Error fetching rooms", err);
@@ -20,14 +23,20 @@ const RoomList = ({ fetchUrl }) => {
     fetchRooms();
   }, [fetchUrl]);
 
-  const openModal = (room) => {
+  const openRoomModal = (room) => {
     setSelectedRoom(room);
+    setModalType("room");
     setIsModalOpen(true);
+  };
+
+  const openBookingModal = () => {
+    setModalType("booking");
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedRoom(null);
+    setModalType("room");
   };
 
   return (
@@ -39,7 +48,7 @@ const RoomList = ({ fetchUrl }) => {
             <div
               key={room.roomid}
               className={Style.roomCard}
-              onClick={() => openModal(room)}
+              onClick={() => openRoomModal(room)}
             >
               <img
                 src={room.roomurl}
@@ -55,12 +64,22 @@ const RoomList = ({ fetchUrl }) => {
         </div>
       </div>
 
-      {/* Modal Component */}
-      <RoomModal
-        room={selectedRoom}
-        isOpen={isModalOpen}
-        onClose={closeModal}
-      />
+      {modalType === "room" && (
+        <RoomModal
+          room={selectedRoom}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onBook={openBookingModal}
+        />
+      )}
+
+      {modalType === "booking" && (
+        <BookingModal
+          room={selectedRoom}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+        />
+      )}
     </>
   );
 };
