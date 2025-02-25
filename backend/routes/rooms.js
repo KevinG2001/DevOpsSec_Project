@@ -14,4 +14,14 @@ router.get("/latest", async (req, res) => {
   }
 });
 
+router.get("/all", async (req, res) => {
+  try {
+    const result = await db.query("SELECT * FROM rooms");
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Cant get all rooms" });
+  }
+});
+
 module.exports = router;
