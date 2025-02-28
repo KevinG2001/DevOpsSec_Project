@@ -2,6 +2,7 @@ const express = require("express");
 const db = require("../database");
 const router = express.Router();
 
+//Get all the routes for the user
 router.get("/all/:userId", async (req, res) => {
   const { userId } = req.params;
   try {
@@ -11,6 +12,29 @@ router.get("/all/:userId", async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error("Error fetching bookings: ", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Add a new booking
+router.post("/create", async (req, res) => {
+  try {
+    const { userid, firstname, roomid, datestart, dateend } = req.body;
+
+    if (!userid || !firstname || !roomid || !datestart || !dateend) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const result = await db.query(
+      "INSERT INTO bookings (userid, firstname, roomid, datestart, dateend) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [userid, firstname, roomid, datestart, dateend]
+    );
+
+    res
+      .status(201)
+      .json({ message: "Booking created!", booking: result.rows[0] });
+  } catch (err) {
+    console.error("Error creating booking:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });

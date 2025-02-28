@@ -14,7 +14,6 @@ const RoomList = ({ fetchUrl }) => {
       try {
         const response = await fetch(fetchUrl);
         const data = await response.json();
-        console.log(data);
         setRooms(data);
       } catch (err) {
         console.error("Error fetching rooms", err);
