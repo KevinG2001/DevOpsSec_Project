@@ -50,7 +50,6 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user by email
     const user = await pool.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
@@ -59,20 +58,27 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ error: "User not found" });
     }
 
-    // Compare entered password with stored hashed password
     const isMatch = await bcrypt.compare(password, user.rows[0].password);
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid password" });
     }
 
-    // Generate JWT token with isAdmin included
     const token = jwt.sign(
-      { userID: user.rows[0].userid, isAdmin: user.rows[0].isadmin },
+      {
+        userID: user.rows[0].userid,
+        firstname: user.rows[0].firstname,
+        isAdmin: user.rows[0].isadmin,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    res.json({ message: "Login successful!", token, isAdmin: user.rows[0].isadmin });
+    res.json({
+      message: "Login successful!",
+      token,
+      firstname: user.rows[0].firstname,
+      isAdmin: user.rows[0].isadmin,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
