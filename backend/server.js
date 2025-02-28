@@ -27,7 +27,12 @@ app.get("/", (req, res) => {
   res.json({ message: "Backend is running!" });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Only start the server if not in test mode
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}
+
+// Export app for testing
+module.exports = app;
