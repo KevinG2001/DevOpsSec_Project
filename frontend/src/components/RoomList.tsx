@@ -14,7 +14,6 @@ const RoomList = ({ fetchUrl }) => {
       try {
         const response = await fetch(fetchUrl);
         const data = await response.json();
-        console.log(data);
         setRooms(data);
       } catch (err) {
         console.error("Error fetching rooms", err);
@@ -77,8 +76,7 @@ const RoomList = ({ fetchUrl }) => {
         <BookingModal
           room={selectedRoom}
           isOpen={isModalOpen}
-          onClose={closeModal} 
-          userID={userID}        
+          onClose={closeModal}
         />
       )}
     </>
