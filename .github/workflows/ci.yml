@@ -1,14 +1,21 @@
 name: CI Pipeline
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     services:
       postgres:
-        image: postgres:13
+        image: postgres:15
         env:
           POSTGRES_USER: testuser
           POSTGRES_PASSWORD: testpassword
@@ -22,14 +29,14 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: "postgresql://testuser:testpassword@localhost:5432/testdb"
+      DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
@@ -38,7 +45,12 @@ jobs:
           cd backend
           npm install
 
-      - name: Run tests
+      - name: Run Database Migrations
+        run: |
+          cd backend
+          npm run migrate  # Replace with your actual migration command
+
+      - name: Run Tests
         run: |
           cd backend
           npm test
