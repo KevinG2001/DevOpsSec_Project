@@ -3,22 +3,23 @@ import axios from "axios";
 import Style from "../styles/bookingModal.module.scss";
 import { jwtDecode } from "jwt-decode";
 
-// Extract user ID from token
+// Getting stuff from token
 const token = localStorage.getItem("token");
 let decodedUserID: number | null = null;
+let decodedFirstname: string | null = null;
 
 if (token) {
   try {
-    const decoded = jwtDecode<{ userID: number }>(token); // Ensure correct type
+    const decoded = jwtDecode<{ userID: number; firstname: string }>(token);
     decodedUserID = decoded.userID;
-    console.log("Decoded User ID:", decodedUserID);
+    decodedFirstname = decoded.firstname;
   } catch (error) {
     console.error("Error decoding token:", error);
   }
 }
 
 interface Room {
-  roomID: number;
+  roomid: number;
   roomname: string;
   roomprice: number;
 }
@@ -27,10 +28,13 @@ interface BookingModalProps {
   room: Room | null;
   isOpen: boolean;
   onClose: () => void;
-  userID: number;
 }
 
-const BookingModal: React.FC<BookingModalProps> = ({ room, isOpen, onClose, userID }) => {
+const BookingModal: React.FC<BookingModalProps> = ({
+  room,
+  isOpen,
+  onClose,
+}) => {
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   const [loading, setLoading] = useState(false);
@@ -39,8 +43,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ room, isOpen, onClose, user
 
   if (!isOpen || !room) return null;
 
-  // Use prop userID if available, otherwise use decoded token value
-  const finalUserID = userID || decodedUserID;
+  const finalUserID = decodedUserID;
+  const finalFirstname = decodedFirstname;
 
   const handleBooking = async () => {
     if (!checkInDate || !checkOutDate) {
@@ -48,12 +52,12 @@ const BookingModal: React.FC<BookingModalProps> = ({ room, isOpen, onClose, user
       return;
     }
 
-    if (!finalUserID) {
-      setError("User ID not found. Please log in again.");
+    if (!finalUserID || !finalFirstname) {
+      setError("User information missing. Please log in again.");
       return;
     }
 
-    if (!room || !room.roomID) { // Ensure roomID exists
+    if (!room || !room.roomid) {
       setError("Room information is missing.");
       return;
     }
@@ -63,24 +67,31 @@ const BookingModal: React.FC<BookingModalProps> = ({ room, isOpen, onClose, user
 
     try {
       console.log("Sending booking data:", {
-        roomid: room.roomID,
+        roomid: room.roomid,
         userid: finalUserID,
+        firstname: finalFirstname,
         datestart: checkInDate,
         dateend: checkOutDate,
       });
 
-      const response = await axios.post("http://localhost:5000/api/bookings", {
-        roomid: room.roomID,
-        userid: finalUserID,
-        datestart: checkInDate,
-        dateend: checkOutDate,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/bookings/create",
+        {
+          roomid: room.roomid,
+          userid: finalUserID,
+          firstname: finalFirstname,
+          datestart: checkInDate,
+          dateend: checkOutDate,
+        }
+      );
 
       console.log("Booking successful:", response.data);
       setSuccess(true);
     } catch (err: any) {
       console.error("Error creating booking:", err);
-      setError(err.response?.data?.error || "Booking failed. Please try again.");
+      setError(
+        err.response?.data?.error || "Booking failed. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -89,7 +100,9 @@ const BookingModal: React.FC<BookingModalProps> = ({ room, isOpen, onClose, user
   return (
     <div className={Style.modalOverlay} onClick={onClose}>
       <div className={Style.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button className={Style.closeButton} onClick={onClose}>X</button>
+        <button className={Style.closeButton} onClick={onClose}>
+          X
+        </button>
         <h2>Booking for {room.roomname}</h2>
         <p>€{room.roomprice} per night</p>
 
