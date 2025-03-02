@@ -43,7 +43,9 @@ function Bookings() {
 
     const fetchBookings = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/bookings/all/${userId}`);
+        const response = await axios.get(
+          `http://localhost:5000/api/bookings/all/${userId}`
+        );
         const data = Array.isArray(response.data)
           ? response.data
           : response.data.bookings || [];
@@ -57,6 +59,19 @@ function Bookings() {
 
     fetchBookings();
   }, [userId]);
+
+  const deleteBooking = async (bookingid: number) => {
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/bookings/delete/${bookingid}`
+      );
+      setBookings((prevBookings) =>
+        prevBookings.filter((b) => b.bookingid !== bookingid)
+      );
+    } catch (err) {
+      console.error("Problem deleting booking", err);
+    }
+  };
 
   if (!userId) {
     return <p>Please log in to view your bookings.</p>;
@@ -82,18 +97,28 @@ function Bookings() {
               <th style={{ textAlign: "left", padding: "8px" }}>Booking ID</th>
               <th style={{ textAlign: "left", padding: "8px" }}>Room ID</th>
               <th style={{ textAlign: "left", padding: "8px" }}>First Name</th>
-              <th style={{ textAlign: "left", padding: "8px" }}>Check-in Date</th>
-              <th style={{ textAlign: "left", padding: "8px" }}>Check-out Date</th>
+              <th style={{ textAlign: "left", padding: "8px" }}>
+                Check-in Date
+              </th>
+              <th style={{ textAlign: "left", padding: "8px" }}>
+                Check-out Date
+              </th>
             </tr>
           </thead>
           <tbody>
             {bookings.map((booking) => (
-              <tr key={booking.bookingid} style={{ borderBottom: "1px solid #eee" }}>
+              <tr
+                key={booking.bookingid}
+                style={{ borderBottom: "1px solid #eee" }}
+              >
                 <td style={{ padding: "8px" }}>{booking.bookingid}</td>
                 <td style={{ padding: "8px" }}>{booking.roomid}</td>
                 <td style={{ padding: "8px" }}>{booking.firstname}</td>
                 <td style={{ padding: "8px" }}>{booking.datestart}</td>
                 <td style={{ padding: "8px" }}>{booking.dateend}</td>
+                <button onClick={() => deleteBooking(booking.bookingid)}>
+                  Delete
+                </button>
               </tr>
             ))}
           </tbody>
