@@ -31,6 +31,7 @@ jobs:
     env:
       DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
       NODE_ENV: test
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
     steps:
       - name: Checkout Repository
