@@ -13,6 +13,14 @@ export interface Room {
   roomurl: string;
 }
 
+export interface RoomModalProps {
+  room: Room | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onBook: () => void;
+  refreshRooms?: () => void;
+}
+
 export interface Booking {
   bookingid: number;
   userid: number;

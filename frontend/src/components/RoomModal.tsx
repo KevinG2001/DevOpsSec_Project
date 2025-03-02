@@ -1,74 +1,29 @@
-import { useState } from "react";
 import Style from "../styles/roomModal.module.scss";
-import { jwtDecode } from "jwt-decode";
-import axios from "axios";
+import useRooms from "../util/useRooms";
+import { RoomModalProps } from "../util/types";
 
-const RoomModal = ({
+const RoomModal: React.FC<RoomModalProps> = ({
   room,
   isOpen,
   onClose,
   onBook,
-  onRemove,
   refreshRooms,
 }) => {
+  const {
+    isAdmin,
+    isEditing,
+    setIsEditing,
+    roomname,
+    setRoomname,
+    roomdescription,
+    setRoomdescription,
+    roomprice,
+    setRoomprice,
+    updateRoom,
+    deleteRoom,
+  } = useRooms(room, refreshRooms);
+
   if (!isOpen || !room) return null;
-
-  // Get the token from localStorage
-  const token = localStorage.getItem("token");
-  let isAdmin = false;
-
-  // Checking if the token is valid
-  if (token) {
-    try {
-      const decoded = jwtDecode(token);
-      isAdmin = decoded.isAdmin;
-    } catch (error) {
-      console.error("Invalid token:", error);
-    }
-  }
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [roomname, setRoomname] = useState(room.roomname);
-  const [roomdescription, setRoomdescription] = useState(room.roomdescription);
-  const [roomprice, setRoomprice] = useState(room.roomprice);
-
-  const updateRoom = async () => {
-    if (!room || !room.roomid) {
-      console.error("Error: roomid is missing or undefined!");
-      return;
-    }
-
-    try {
-      const response = await axios.put(
-        `http://localhost:5000/rooms/update/${room.roomid}`,
-        { roomname, roomdescription, roomprice }
-      );
-
-      setIsEditing(false);
-
-      if (refreshRooms) {
-        refreshRooms();
-      } else {
-        console.warn("refreshRooms is not defined!");
-      }
-    } catch (err) {
-      console.error("Error updating room:", err);
-      alert("Failed to update room.");
-    }
-  };
-
-  const deleteRoom = async (roomid: number) => {
-    try {
-      await axios.delete(`http://localhost:5000/rooms/delete/${roomid}`);
-      if (refreshRooms) {
-        refreshRooms();
-      } else {
-        console.warn("refreshRooms is not defined!");
-      }
-    } catch (err) {
-      console.error("Problem deleting room");
-    }
-  };
 
   return (
     <div className={Style.modalOverlay} onClick={onClose}>
@@ -98,7 +53,7 @@ const RoomModal = ({
               <input
                 type="number"
                 value={roomprice}
-                onChange={(e) => setRoomprice(e.target.value)}
+                onChange={(e) => setRoomprice(Number(e.target.value))}
               />
               <button onClick={updateRoom} className={Style.modalBtn}>
                 Save
@@ -119,7 +74,6 @@ const RoomModal = ({
                 <button className={Style.modalBtn} onClick={onBook}>
                   Book
                 </button>
-
                 {isAdmin && (
                   <>
                     <button
