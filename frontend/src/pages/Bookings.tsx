@@ -1,39 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-
-interface Booking {
-  bookingid: number;
-  userid: number;
-  firstname: string;
-  roomid: number;
-  datestart: string;
-  dateend: string;
-}
-
-interface DecodedToken {
-  userID: number;
-  isAdmin: boolean;
-  exp: number;
-}
+import useUser from "../util/useUser";
+import { Booking } from "../util/types";
 
 function Bookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const token = localStorage.getItem("token");
-
-  let userId: number | null = null;
-  if (token) {
-    try {
-      const decoded: DecodedToken = jwtDecode(token);
-      userId = decoded.userID;
-    } catch (err) {
-      console.error("Invalid token", err);
-      userId = null;
-    }
-  }
+  const { userId } = useUser();
 
   useEffect(() => {
     if (!userId) {

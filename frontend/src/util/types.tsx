@@ -21,3 +21,9 @@ export interface Booking {
   datestart: string;
   dateend: string;
 }
+
+export interface DecodedToken {
+  userID: number;
+  isAdmin: boolean;
+  exp: number;
+}
