@@ -25,38 +25,39 @@ router.post("/create", async (req, res) => {
   }
 });
 
-//Get all the bookings
+// Get all bookings (Admin only)
 router.get("/all", async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM bookings ");
+    const result = await db.query("SELECT * FROM bookings");
     res.json(result.rows);
   } catch (err) {
-    console.error("Error fetching bookings: ", err);
+    console.error("Error fetching bookings:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
-//Get all the routes for the user
+// Get all bookings for a specific user
 router.get("/all/:userId", async (req, res) => {
-  const { userId } = req.params;
+  const userId = Number(req.params.userId);
+  if (!userId) return res.status(400).json({ error: "Invalid user ID" });
+
   try {
-    const result = await db.query("SELECT * FROM bookings WHERE userId = $1", [
+    const result = await db.query("SELECT * FROM bookings WHERE userid = $1", [
       userId,
     ]);
     res.json(result.rows);
   } catch (err) {
-    console.error("Error fetching bookings: ", err);
+    console.error("Error fetching bookings:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
-//Delete booking
+// Delete a booking
 router.delete("/delete/:bookingId", async (req, res) => {
   try {
-    const { bookingId } = req.params;
-
+    const bookingId = Number(req.params.bookingId);
     if (!bookingId) {
-      return res.status(400).json({ error: "Booking ID is required" });
+      return res.status(400).json({ error: "Invalid booking ID" });
     }
 
     const result = await db.query(

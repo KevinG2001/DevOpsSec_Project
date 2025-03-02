@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import Style from "../styles/roomCard.module.scss";
 import RoomModal from "./RoomModal";
 import BookingModal from "./BookingModal";
+import { Room } from "../util/types";
 
-const RoomList = ({ fetchUrl }) => {
-  const [rooms, setRooms] = useState([]);
-  const [selectedRoom, setSelectedRoom] = useState(null);
+const RoomList = ({ fetchUrl }: any) => {
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("room");
 
@@ -13,7 +14,7 @@ const RoomList = ({ fetchUrl }) => {
   const fetchRooms = async () => {
     try {
       const response = await fetch(fetchUrl);
-      const data = await response.json();
+      const data: Room[] = await response.json();
       setRooms(data);
     } catch (err) {
       console.error("Error fetching rooms", err);
@@ -25,7 +26,7 @@ const RoomList = ({ fetchUrl }) => {
   }, [fetchUrl]);
 
   // Opens the room modal for editing/viewing
-  const openRoomModal = (room) => {
+  const openRoomModal = (room: Room) => {
     setSelectedRoom(room);
     setModalType("room");
     setIsModalOpen(true);

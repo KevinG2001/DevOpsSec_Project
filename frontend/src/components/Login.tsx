@@ -23,7 +23,7 @@ const Login: React.FC = () => {
 
       // Redirect based on user role
       if (res.data.isAdmin) {
-        navigate("/admin-dashboard"); // Redirect to admin page
+        navigate("/admindashboard"); // Redirect to admin page
       } else {
         navigate("/home"); // Redirect to regular user dashboard
       }
