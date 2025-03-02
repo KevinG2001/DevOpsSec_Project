@@ -25,6 +25,17 @@ router.post("/create", async (req, res) => {
   }
 });
 
+//Get all the bookings
+router.get("/all", async (req, res) => {
+  try {
+    const result = await db.query("SELECT * FROM bookings ");
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error fetching bookings: ", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 //Get all the routes for the user
 router.get("/all/:userId", async (req, res) => {
   const { userId } = req.params;
