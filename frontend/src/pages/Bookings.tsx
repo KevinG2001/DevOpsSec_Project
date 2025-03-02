@@ -4,7 +4,7 @@ function Bookings() {
   const { bookings, loading, error, deleteBooking } = useBookings();
 
   if (loading) {
-    return <p>Loading bookings...</p>;
+    return <p className={styles.message}>Loading bookings...</p>;
   }
 
   if (error) {

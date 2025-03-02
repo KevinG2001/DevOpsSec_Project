@@ -1,0 +1,64 @@
+.container {
+  padding: 20px;
+  background-color: #999999; // Dark theme
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.message {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+.error {
+  color: #ff6b6b;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #333;
+  font-family: "Inter", sans-serif;
+}
+
+th {
+  background: #292929;
+  color: #facc15;
+}
+
+tr:hover {
+  background: #2a2a2a;
+}
+
+.deleteButton {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #ff4b4b;
+  }
+}

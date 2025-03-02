@@ -1,0 +1,58 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - jake
+      - kevinsBranch  
+  pull_request:
+    branches:
+      - main
+      - jake
+      - kevinsBranch  
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpassword
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U testuser"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          npm install
+
+      - name: Run Database Migrations
+        run: |
+          cd backend
+          npm run migrate  # Replace with your actual migration command
+
+      - name: Run Tests
+        run: |
+          cd backend
+          npm test

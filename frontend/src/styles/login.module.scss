@@ -5,22 +5,32 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #121212; // Dark mode background
+  background: linear-gradient(135deg, #121212, #1e1e1e); // gradient
   color: #ffffff;
+  font-family: "Poppins", sans-serif;
 }
 
 .auth-card {
-  background: #1e1e1e; // Card color (contrasts with background)
+  background: rgba(30, 30, 30, 0.85); 
+  backdrop-filter: blur(10px);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); // Soft shadow for a card effect
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); // shadow for a card effect
   width: 400px;
   text-align: center;
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.02);
+  }
 }
 
 h2 {
+  text-align: center;
   margin-bottom: 1rem;
   color: #ffffff;
+  font-size: 2rem;
+  font-weight: 600;
 }
 
 form {
@@ -32,10 +42,17 @@ form {
   margin-bottom: 1rem;
   padding: 0.8rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 1rem;
-  background: #2c2c2c; // Darker input fields
+  background: #2c2c2c;
   color: #ffffff;
+  transition: all 0.3s ease-in-out;
+  
+  &:focus {
+    outline: none;
+    border: 2px solid #ff6b6b;
+    background: #3a3a3a;
+  }
 }
 
 .button {
@@ -43,14 +60,16 @@ form {
   color: white;
   border: none;
   padding: 0.8rem;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
   margin-top: 1rem;
-  transition: background 0.3s ease;
-
+  transition: all 0.3s ease-in-out;
+  font-weight: bold;
+  
   &:hover {
     background: #ff4b4b;
+    transform: scale(1.05);
   }
 }
 
@@ -64,16 +83,25 @@ form {
   margin-bottom: 1rem;
 }
 
-.redirect-text {
+.redirectText {
   margin-top: 1rem;
+  font-size: 0.9rem;
 }
 
-.auth-link {
+.authLink {
   color: #ff6b6b;
   text-decoration: none;
   font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  
+  &:hover {
+    text-decoration: underline;
+    color: #ff4b4b;
+  }
 }
 
-.auth-link:hover {
-  text-decoration: underline;
+.logo {
+  width: 300px; 
+  margin-bottom: 1rem; // Space between logo and form
+  border-radius: 10px; 
 }

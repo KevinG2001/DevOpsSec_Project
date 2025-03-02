@@ -38,7 +38,7 @@ function Navbar() {
   return (
     <>
       <div className={Style.navContainer}>
-        <div className={Style.navName}>NameHere</div>
+        <div className={Style.navName}>BookIt</div>
         <div className={Style.navLinkWrapper}>
           {isAdmin && (
             <div className={Style.navLink} onClick={goToLink}>

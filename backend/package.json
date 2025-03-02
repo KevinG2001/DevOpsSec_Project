@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server.js",
     "dev": "nodemon server.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +19,6 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.3"
@@ -25,7 +27,11 @@
     "@types/axios": "^0.9.36",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "dotenv": "^16.4.7",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.9",
+    "pg-mock": "^1.0.1",
+    "supertest": "^7.0.0",
     "typescript": "^5.7.3"
   }
 }

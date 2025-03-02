@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Style from "../styles/adminDashboard.module.scss";
+import styles from "../styles/adminDashboard.module.scss";
 import useAdminData from "../util/useAdminData";
 
 function AdminDashboard() {
@@ -12,61 +12,67 @@ function AdminDashboard() {
 
   const { data, loading, error } = useAdminData(endpoint);
 
+  console.log("Admin Data:", data);
+
+
   return (
-    <>
-      <div className={Style.adminDashboardContainer}>
-        <div className={Style.adminDashboardTH}>
-          <div
-            className={Style.tableHeader}
-            onClick={() => setSelectedTable("Users")}
-          >
-            Users
-          </div>
-          <div
-            className={Style.tableHeader}
-            onClick={() => setSelectedTable("Rooms")}
-          >
-            Rooms
-          </div>
-          <div
-            className={Style.tableHeader}
-            onClick={() => setSelectedTable("Bookings")}
-          >
-            Bookings
-          </div>
-        </div>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Admin Dashboard</h1>
 
-        <div className={Style.adminDashboardContent}>
-          {loading && <p>Loading {selectedTable}...</p>}
-          {error && <p>Error: {error}</p>}
-
-          {!loading && !error && selectedTable && (
-            <div>
-              <h2>{selectedTable}</h2>
-              <table className={Style.adminTable}>
-                <thead>
-                  <tr>
-                    {data.length > 0 &&
-                      Object.keys(data[0]).map((key) => (
-                        <th key={key}>{key}</th>
-                      ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((item, index) => (
-                    <tr key={index}>
-                      {Object.values(item).map((value, i) => (
-                        <td key={i}>{value}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+      <div className={styles.tableSelection}>
+        <button
+          className={selectedTable === "Users" ? styles.activeButton : styles.button}
+          onClick={() => setSelectedTable("Users")}
+        >
+          Users
+        </button>
+        <button
+          className={selectedTable === "Rooms" ? styles.activeButton : styles.button}
+          onClick={() => setSelectedTable("Rooms")}
+        >
+          Rooms
+        </button>
+        <button
+          className={selectedTable === "Bookings" ? styles.activeButton : styles.button}
+          onClick={() => setSelectedTable("Bookings")}
+        >
+          Bookings
+        </button>
       </div>
-    </>
+
+      <div className={styles.content}>
+        {loading && <p className={styles.message}>Loading {selectedTable}...</p>}
+        {error && <p className={styles.error}>Error: {error}</p>}
+
+        {!loading && !error && selectedTable && (
+          <div>
+            <table className={styles.table}>
+            <thead>
+              <tr>
+                {data.length > 0 &&
+                  Object.keys(data[0])
+                    .filter((key) => key.toLowerCase() !== "password" && key.toLowerCase() !== "isadmin") //removes password and admin
+                    .map((key) => <th key={key}>{key}</th>)
+                }
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((item, index) => (
+                <tr key={index}>
+                  {Object.entries(item)
+                    .filter(([key]) => key.toLowerCase() !== "password" && key.toLowerCase() !== "isadmin") //removes passwords and admin
+                    .map(([_, value], i) => (
+                      <td key={i}>{value}</td>
+                    ))
+                  }
+                </tr>
+              ))}
+            </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
