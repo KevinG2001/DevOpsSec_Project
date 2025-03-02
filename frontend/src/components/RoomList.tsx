@@ -9,29 +9,34 @@ const RoomList = ({ fetchUrl }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState("room");
 
+  //Gets all the rooms
+  const fetchRooms = async () => {
+    try {
+      const response = await fetch(fetchUrl);
+      const data = await response.json();
+      setRooms(data);
+    } catch (err) {
+      console.error("Error fetching rooms", err);
+    }
+  };
+
   useEffect(() => {
-    const fetchRooms = async () => {
-      try {
-        const response = await fetch(fetchUrl);
-        const data = await response.json();
-        setRooms(data);
-      } catch (err) {
-        console.error("Error fetching rooms", err);
-      }
-    };
     fetchRooms();
   }, [fetchUrl]);
 
+  // Opens the room modal for editing/viewing
   const openRoomModal = (room) => {
     setSelectedRoom(room);
     setModalType("room");
     setIsModalOpen(true);
   };
 
+  // Opens the booking modal
   const openBookingModal = () => {
     setModalType("booking");
   };
 
+  // Closes any open modal
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedRoom(null);
@@ -69,6 +74,7 @@ const RoomList = ({ fetchUrl }) => {
           isOpen={isModalOpen}
           onClose={closeModal}
           onBook={openBookingModal}
+          refreshRooms={fetchRooms}
         />
       )}
 
