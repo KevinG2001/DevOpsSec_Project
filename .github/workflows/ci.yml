@@ -56,3 +56,13 @@ jobs:
         run: |
           cd backend
           npm test
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm run build
