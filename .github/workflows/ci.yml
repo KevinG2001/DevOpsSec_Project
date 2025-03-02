@@ -5,12 +5,10 @@ on:
     branches:
       - main
       - jake
-      - kevinsBranch  
+      - kevinsBranch
   pull_request:
     branches:
       - main
-      - jake
-      - kevinsBranch  
 
 jobs:
   test:
@@ -32,6 +30,8 @@ jobs:
 
     env:
       DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
+      NODE_ENV: test
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
     steps:
       - name: Checkout Repository
@@ -50,9 +50,19 @@ jobs:
       - name: Run Database Migrations
         run: |
           cd backend
-          npm run migrate  # Replace with your actual migration command
+          npm run migrate  # Runs knex migrate:latest
 
       - name: Run Tests
         run: |
           cd backend
           npm test
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm run build
