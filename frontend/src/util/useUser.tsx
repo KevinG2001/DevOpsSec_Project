@@ -1,28 +1,40 @@
 import { useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
-import { DecodedToken } from "../util/types";
 
-function useUser() {
-  const [userId, setUserId] = useState<number | null>(null);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+interface User {
+  userId: number | null;
+  firstname: string | null;
+  isAdmin: boolean;
+}
+
+function useUser(): User {
+  const [user, setUser] = useState<User>({
+    userId: null,
+    firstname: null,
+    isAdmin: false,
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
     if (token) {
       try {
-        const decoded: DecodedToken = jwtDecode<DecodedToken>(token);
-        setUserId(decoded.userID);
-        setIsAdmin(decoded.isAdmin);
-      } catch (err) {
-        console.error("Invalid token", err);
-        setUserId(null);
-        setIsAdmin(false);
+        const decoded = jwtDecode<{
+          userID: number;
+          firstname: string;
+          isAdmin: boolean;
+        }>(token);
+        setUser({
+          userId: decoded.userID,
+          firstname: decoded.firstname,
+          isAdmin: decoded.isAdmin,
+        });
+      } catch (error) {
+        console.error("Error decoding token:", error);
       }
     }
   }, []);
 
-  return { userId, isAdmin };
+  return user;
 }
 
 export default useUser;
