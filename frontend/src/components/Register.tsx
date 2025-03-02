@@ -31,6 +31,8 @@ const Register: React.FC = () => {
 
   return (
     <div className={styles.authContainer}>
+      <img src="/BookIt.jpg" alt="BookIt Logo" className={styles.logo} />
+      
       <div className={styles.authCard}>
         <h2>Register</h2>
 
