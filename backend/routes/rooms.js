@@ -1,5 +1,6 @@
 const express = require("express");
 const db = require("../database");
+const e = require("express");
 const router = express.Router();
 
 router.get("/latest", async (req, res) => {
@@ -62,6 +63,31 @@ router.put("/update/:roomId", async (req, res) => {
     });
   } catch (err) {
     console.error("Error updating room:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.delete("/delete/:roomId", async (req, res) => {
+  try {
+    const { roomId } = req.params;
+
+    if (!roomId) {
+      return res.status(400).json({ error: "Room id required" });
+    }
+    const result = await db.query(
+      "DELETE from rooms WHERE roomid = $1 RETURNING *",
+      [roomId]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Room not found" });
+    }
+    res.status(200).json({
+      message: "Room deleted successfully",
+      deletedRoom: result.rows[0],
+    });
+  } catch (err) {
+    console.error("error deleting room", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });

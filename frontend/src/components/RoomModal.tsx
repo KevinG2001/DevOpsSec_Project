@@ -44,8 +44,6 @@ const RoomModal = ({
         { roomname, roomdescription, roomprice }
       );
 
-      alert("Room updated successfully!");
-
       setIsEditing(false);
 
       if (refreshRooms) {
@@ -56,6 +54,19 @@ const RoomModal = ({
     } catch (err) {
       console.error("Error updating room:", err);
       alert("Failed to update room.");
+    }
+  };
+
+  const deleteRoom = async (roomid: number) => {
+    try {
+      await axios.delete(`http://localhost:5000/rooms/delete/${roomid}`);
+      if (refreshRooms) {
+        refreshRooms();
+      } else {
+        console.warn("refreshRooms is not defined!");
+      }
+    } catch (err) {
+      console.error("Problem deleting room");
     }
   };
 
@@ -117,7 +128,10 @@ const RoomModal = ({
                     >
                       Edit
                     </button>
-                    <button className={Style.modalBtn} onClick={onRemove}>
+                    <button
+                      className={Style.modalBtn}
+                      onClick={() => deleteRoom(room.roomid)}
+                    >
                       Remove
                     </button>
                   </>
