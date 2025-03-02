@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
-const useAdminData = (endpoint) => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+const useAdminData = (endpoint: string) => {
+  const [data, setData] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!endpoint) return;
@@ -19,7 +19,9 @@ const useAdminData = (endpoint) => {
         const result = await response.json();
         setData(result);
       } catch (err) {
-        setError(err.message);
+        const errorMessage =
+          err instanceof Error ? err.message : "An unknown error occurred";
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
