@@ -18,10 +18,11 @@ function useBookings() {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:5000/api/bookings/all/${userId}`
+          `http://localhost:5000/api/bookings/all/${Number(userId)}`
         );
-        setBookings(response.data.bookings || []);
+        setBookings(response.data);
       } catch (err: any) {
+        console.error("Error fetching bookings:", err);
         setError(err.response?.data?.error || "Error fetching bookings.");
       } finally {
         setLoading(false);
@@ -39,7 +40,14 @@ function useBookings() {
     try {
       await axios.post("http://localhost:5000/api/bookings/create", newBooking);
       setSuccess(true);
+      if (userId) {
+        const response = await axios.get(
+          `http://localhost:5000/api/bookings/all/${Number(userId)}`
+        );
+        setBookings(response.data);
+      }
     } catch (err: any) {
+      console.error("Error creating booking:", err);
       setError(
         err.response?.data?.error || "Booking failed. Please try again."
       );
@@ -55,7 +63,8 @@ function useBookings() {
       );
       setBookings((prev) => prev.filter((b) => b.bookingid !== bookingid));
     } catch (err) {
-      console.error("Problem deleting booking", err);
+      console.error("Problem deleting booking:", err);
+      setError("Error deleting booking. Please try again.");
     }
   };
 
