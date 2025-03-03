@@ -61,6 +61,10 @@ jobs:
       - name: Unzip Deployment Package
         run: unzip release.zip
 
+      - name: Clean up old files
+        run: |
+          rm -rf /home/site/wwwroot/*
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
