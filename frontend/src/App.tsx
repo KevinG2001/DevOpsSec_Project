@@ -27,8 +27,11 @@ function Layout() {
         <Route path="/home" element={<Home />} />
         <Route
           path="/rooms"
-          element={<RoomList fetchUrl="http://localhost:5000/rooms/all" />}
+          element={
+            <RoomList fetchUrl={`${process.env.REACT_APP_API_URL}/rooms/all`} />
+          }
         />
+
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/admindashboard" element={<AdminDashboard />} />
       </Routes>

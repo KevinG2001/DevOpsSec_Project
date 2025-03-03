@@ -5,7 +5,7 @@ function Home() {
     <div>
       <div></div>
       <div>
-        <RoomList fetchUrl="http://localhost:5000/rooms/latest" />
+        <RoomList fetchUrl={`${process.env.REACT_APP_API_URL}/rooms/latest`} />
       </div>
     </div>
   );

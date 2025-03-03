@@ -18,7 +18,7 @@ function useBookings() {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:5000/api/bookings/all/${Number(userId)}`
+          `${process.env.REACT_APP_API_URL}/api/bookings/all/${Number(userId)}`
         );
         setBookings(response.data);
       } catch (err: any) {
@@ -38,11 +38,14 @@ function useBookings() {
     setSuccess(false);
 
     try {
-      await axios.post("http://localhost:5000/api/bookings/create", newBooking);
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/bookings/create`,
+        newBooking
+      );
       setSuccess(true);
       if (userId) {
         const response = await axios.get(
-          `http://localhost:5000/api/bookings/all/${Number(userId)}`
+          `${process.env.REACT_APP_API_URL}/api/bookings/all/${Number(userId)}`
         );
         setBookings(response.data);
       }
@@ -59,7 +62,7 @@ function useBookings() {
   const deleteBooking = async (bookingid: number) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/bookings/delete/${bookingid}`
+        `${process.env.REACT_APP_API_URL}/api/bookings/delete/${bookingid}`
       );
       setBookings((prev) => prev.filter((b) => b.bookingid !== bookingid));
     } catch (err) {
