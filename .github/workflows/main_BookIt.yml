@@ -30,8 +30,7 @@ jobs:
         working-directory: frontend
 
       - name: Build Frontend
-        run: |
-          npm run build
+        run: npm run build
         working-directory: frontend
 
       - name: Copy Frontend Build to Backend
