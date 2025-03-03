@@ -23,29 +23,35 @@ jobs:
         with:
           node-version: "18.x"
 
-      # Added separate npm install for backend and frontend
       - name: Install Backend Dependencies
-        run: |
-          cd backend
-          npm install
-        working-directory: backend # Ensures it runs inside the backend directory
+        run: npm install
+        working-directory: backend
 
-      - name: Install Frontend Dependencies and Build
-        run: |
-          cd frontend
-          npm install
-          npm run build # Build frontend to create 'dist' folder
-        working-directory: frontend # Ensures it runs inside the frontend directory
+      - name: Build Backend (if needed)
+        run: npm run build --if-present
+        working-directory: backend
 
-      # Zip only backend and frontend/dist for deployment
+      - name: Install Frontend Dependencies
+        run: npm install
+        working-directory: frontend
+
+      - name: Build Frontend
+        run: npm run build
+        working-directory: frontend
+
+      - name: Copy Frontend Build to Backend
+        run: cp -r frontend/dist backend/public
+        working-directory: .
+
       - name: Zip artifact for deployment
-        run: zip -r release.zip backend frontend/dist # Only includes necessary files
+        run: zip release.zip ./* -r
+        working-directory: backend
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: release.zip
+          path: backend/release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -54,8 +60,8 @@ jobs:
       name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write # This is required for requesting the JWT
-      contents: read # This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
       - name: Download artifact from build job
@@ -64,7 +70,7 @@ jobs:
           name: node-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
+        run: unzip backend/release.zip
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -79,4 +85,4 @@ jobs:
         with:
           app-name: "BookIt"
           slot-name: "Production"
-          package: backend # Changed to deploy only backend
+          package: backend
