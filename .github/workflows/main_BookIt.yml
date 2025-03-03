@@ -34,7 +34,7 @@ jobs:
         working-directory: frontend
 
       - name: Copy Frontend Build to Backend
-        run: cp -r frontend/dist backend/public
+        run: mkdir -p backend/public && cp -r frontend/dist backend/public
 
       - name: Verify Files in Backend
         run: ls -l backend/public
