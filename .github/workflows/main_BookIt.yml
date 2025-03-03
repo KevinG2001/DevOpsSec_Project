@@ -34,7 +34,8 @@ jobs:
         working-directory: frontend
 
       - name: Zip Backend for Deployment
-        run: zip -r backend/release.zip backend
+        run: zip -r backend/release.zip .
+        working-directory: backend
 
       - name: Upload Deployment Artifact
         uses: actions/upload-artifact@v4
@@ -74,4 +75,4 @@ jobs:
         with:
           app-name: "BookIt"
           slot-name: "Production"
-          package: release.zip/backend
+          package: release.zip
