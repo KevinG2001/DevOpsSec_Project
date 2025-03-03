@@ -13,7 +13,6 @@ import Bookings from "./pages/Bookings";
 import AdminDashboard from "./pages/AdminDashboard";
 
 function Layout() {
-  console.log("API URL:", import.meta.env.VITE_API_URL);
   const location = useLocation();
 
   const hideNavbar =

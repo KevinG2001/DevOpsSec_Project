@@ -11,9 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    env:
-      VITE_API_URL: ${{ secrets.VITE_API_URL }}
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
       - name: Checkout code
@@ -33,7 +30,8 @@ jobs:
         working-directory: frontend
 
       - name: Build Frontend
-        run: npm run build
+        run: |
+          npm run build
         working-directory: frontend
 
       - name: Copy Frontend Build to Backend
@@ -43,7 +41,7 @@ jobs:
         run: ls -l backend/public
 
       - name: Zip Backend for Deployment
-        run: zip -r release.zip . # Ensure the ZIP contains all necessary files
+        run: zip -r release.zip .
         working-directory: backend
 
       - name: Upload Deployment Artifact
@@ -61,8 +59,6 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
       - name: Download Build Artifact
@@ -87,5 +83,3 @@ jobs:
           app-name: "BookIt"
           slot-name: "Production"
           package: release.zip
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
