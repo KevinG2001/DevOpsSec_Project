@@ -50,16 +50,22 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    console.log("Received login request for:", email);
+
     const user = await pool.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
 
     if (user.rows.length === 0) {
+      console.log("User not found");
       return res.status(400).json({ error: "User not found" });
     }
 
+    console.log("User found:", user.rows[0]);
+
     const isMatch = await bcrypt.compare(password, user.rows[0].password);
     if (!isMatch) {
+      console.log("Invalid password");
       return res.status(400).json({ error: "Invalid password" });
     }
 
@@ -80,7 +86,7 @@ router.post("/login", async (req, res) => {
       isAdmin: user.rows[0].isadmin,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error in login route:", error);
     res.status(500).json({ error: "Server error" });
   }
 });
