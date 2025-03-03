@@ -34,10 +34,10 @@ jobs:
         working-directory: frontend
 
       - name: Verify Frontend Build Location
-        run: ls -l backend/public
+        run: ls -l backend/public/dist
 
       - name: Zip Backend for Deployment
-        run: zip -r release.zip .
+        run: zip -r release.zip . -x "*.git*" -x "frontend/*" -x "node_modules/*"
         working-directory: backend
 
       - name: Upload Deployment Artifact
