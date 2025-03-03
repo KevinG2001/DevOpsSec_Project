@@ -28,14 +28,11 @@ function useRooms(room: Room | null, refreshRooms?: () => void) {
     }
 
     try {
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/rooms/update/${room.roomid}`,
-        {
-          roomname,
-          roomdescription,
-          roomprice,
-        }
-      );
+      await axios.put(`/rooms/update/${room.roomid}`, {
+        roomname,
+        roomdescription,
+        roomprice,
+      });
 
       setIsEditing(false);
       refreshRooms?.();
@@ -47,9 +44,7 @@ function useRooms(room: Room | null, refreshRooms?: () => void) {
 
   const deleteRoom = async (roomid: number) => {
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_API_URL}/rooms/delete/${roomid}`
-      );
+      await axios.delete(`/rooms/delete/${roomid}`);
       refreshRooms?.();
     } catch (err) {
       console.error("Problem deleting room", err);

@@ -18,7 +18,7 @@ const Register: React.FC = () => {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/register`,
+        `/api/auth/register`,
         { firstname, surname, email, password } // Sending required fields
       );
       localStorage.setItem("token", res.data.token);

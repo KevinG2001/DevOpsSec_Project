@@ -26,12 +26,7 @@ function Layout() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
-        <Route
-          path="/rooms"
-          element={
-            <RoomList fetchUrl={`${import.meta.env.VITE_API_URL}/rooms/all`} />
-          }
-        />
+        <Route path="/rooms" element={<RoomList fetchUrl={`/rooms/all`} />} />
 
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/admindashboard" element={<AdminDashboard />} />

@@ -5,7 +5,7 @@ function Home() {
     <div>
       <div></div>
       <div>
-        <RoomList fetchUrl={`${import.meta.env.VITE_API_URL}/rooms/latest`} />
+        <RoomList fetchUrl={`/rooms/latest`} />
       </div>
     </div>
   );

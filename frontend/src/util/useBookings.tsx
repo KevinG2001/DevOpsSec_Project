@@ -17,9 +17,7 @@ function useBookings() {
     const fetchBookings = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/bookings/all/${Number(userId)}`
-        );
+        const response = await axios.get(`/api/bookings/all/${Number(userId)}`);
         setBookings(response.data);
       } catch (err: any) {
         console.error("Error fetching bookings:", err);
@@ -38,15 +36,10 @@ function useBookings() {
     setSuccess(false);
 
     try {
-      await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/bookings/create`,
-        newBooking
-      );
+      await axios.post(`/api/bookings/create`, newBooking);
       setSuccess(true);
       if (userId) {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/bookings/all/${Number(userId)}`
-        );
+        const response = await axios.get(`/api/bookings/all/${Number(userId)}`);
         setBookings(response.data);
       }
     } catch (err: any) {
@@ -61,9 +54,7 @@ function useBookings() {
 
   const deleteBooking = async (bookingid: number) => {
     try {
-      await axios.delete(
-        `${import.meta.env.VITE_API_URL}/api/bookings/delete/${bookingid}`
-      );
+      await axios.delete(`/api/bookings/delete/${bookingid}`);
       setBookings((prev) => prev.filter((b) => b.bookingid !== bookingid));
     } catch (err) {
       console.error("Problem deleting booking:", err);
