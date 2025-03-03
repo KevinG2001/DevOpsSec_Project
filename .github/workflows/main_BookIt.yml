@@ -39,6 +39,9 @@ jobs:
       - name: Zip Backend for Deployment
         run: zip -r release.zip backend/public
 
+      - name: Verify release.zip exists
+        run: ls -l backend
+
       - name: Upload Deployment Artifact
         uses: actions/upload-artifact@v4
         with:
