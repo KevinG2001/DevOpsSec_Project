@@ -17,7 +17,7 @@ const Login: React.FC = () => {
 
     try {
       const res = await axios.post<{ token: string; isAdmin: boolean }>(
-        `${process.env.VITE_API_URL}/api/auth/login`,
+        `/api/auth/login`,
         { email, password }
       );
 
