@@ -33,12 +33,11 @@ jobs:
         run: npm run build
         working-directory: frontend
 
-      - name: Verify Frontend Build Location
-        run: ls -l backend/public/dist
+      - name: Verify Files in Backend
+        run: ls -l backend/public
 
       - name: Zip Backend for Deployment
-        run: zip -r release.zip
-        working-directory: backend
+        run: zip -r release.zip backend/public
 
       - name: Upload Deployment Artifact
         uses: actions/upload-artifact@v4
