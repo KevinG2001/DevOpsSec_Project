@@ -15,7 +15,7 @@ const Login: React.FC = () => {
 
     try {
       const res = await axios.post<{ token: string; isAdmin: boolean }>(
-        "http://localhost:5000/api/auth/login",
+        "/api/auth/login",
         { email, password }
       );
 
@@ -35,7 +35,7 @@ const Login: React.FC = () => {
   return (
     <div className={styles.authContainer}>
       <img src="/BookIt.jpg" alt="BookIt Logo" className={styles.logo} />
-  
+
       <div className={styles.authCard}>
         <h2>Login</h2>
         {error && <p className={styles.error}>{error}</p>}

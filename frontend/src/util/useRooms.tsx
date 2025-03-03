@@ -28,7 +28,7 @@ function useRooms(room: Room | null, refreshRooms?: () => void) {
     }
 
     try {
-      await axios.put(`http://localhost:5000/rooms/update/${room.roomid}`, {
+      await axios.put(`/api/rooms/update/${room.roomid}`, {
         roomname,
         roomdescription,
         roomprice,
@@ -44,7 +44,7 @@ function useRooms(room: Room | null, refreshRooms?: () => void) {
 
   const deleteRoom = async (roomid: number) => {
     try {
-      await axios.delete(`http://localhost:5000/rooms/delete/${roomid}`);
+      await axios.delete(`/api/rooms/delete/${roomid}`);
       refreshRooms?.();
     } catch (err) {
       console.error("Problem deleting room", err);

@@ -10,15 +10,15 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-//Running frontend from backend
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// Serve frontend static files from the backend/public/dist directory
+app.use(express.static(path.join(__dirname, "public", "dist")));
 
-//Routes
+// Routes
 const usersRoute = require("./routes/users");
-app.use("/users", usersRoute);
+app.use("/api/users", usersRoute);
 
 const roomsRoutes = require("./routes/rooms");
-app.use("/rooms", roomsRoutes);
+app.use("/api/rooms", roomsRoutes);
 
 const bookingsRoutes = require("./routes/bookings");
 app.use("/api/bookings", bookingsRoutes);
@@ -29,6 +29,11 @@ app.use("/api/auth", authRoutes);
 // Test route
 app.get("/", (req, res) => {
   res.json({ message: "Backend is running!" });
+});
+
+// Serve the frontend index.html if no API route matches
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "dist", "index.html"));
 });
 
 // Only start the server if not in test mode

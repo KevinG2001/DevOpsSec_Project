@@ -25,10 +25,7 @@ function Layout() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
-        <Route
-          path="/rooms"
-          element={<RoomList fetchUrl="http://localhost:5000/rooms/all" />}
-        />
+        <Route path="/rooms" element={<RoomList fetchUrl="api/rooms/all" />} />
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/admindashboard" element={<AdminDashboard />} />
       </Routes>

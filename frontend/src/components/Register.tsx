@@ -18,7 +18,7 @@ const Register: React.FC = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "/api/auth/register",
         { firstname, surname, email, password } // Sending required fields
       );
       localStorage.setItem("token", res.data.token);
@@ -32,7 +32,7 @@ const Register: React.FC = () => {
   return (
     <div className={styles.authContainer}>
       <img src="/BookIt.jpg" alt="BookIt Logo" className={styles.logo} />
-      
+
       <div className={styles.authCard}>
         <h2>Register</h2>
 
