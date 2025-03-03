@@ -34,10 +34,10 @@ jobs:
         working-directory: frontend
 
       - name: Verify Files in Backend
-        run: ls -l backend/public
+        run: ls -l backend/public/dist
 
-      - name: Zip Backend for Deployment
-        run: zip -r release.zip backend/public/dist
+      - name: Zip Frontend Build
+        run: zip -r backend/release.zip backend/public/dist
 
       - name: Verify release.zip exists
         run: ls -l backend
