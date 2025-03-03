@@ -65,7 +65,7 @@ jobs:
           name: node-app
 
       - name: Unzip Deployment Package
-        run: unzip release.zip -d /home/your_user/
+        run: unzip release.zip
 
       - name: Login to Azure
         uses: azure/login@v2
