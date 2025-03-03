@@ -8,12 +8,10 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate(); // Initialize useNavigate
-  console.log("API URL using VITE/import meta:", import.meta.env.VITE_API_URL);
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    console.log("API URL:", process.env.VITE_API_URL);
 
     try {
       const res = await axios.post<{ token: string; isAdmin: boolean }>(

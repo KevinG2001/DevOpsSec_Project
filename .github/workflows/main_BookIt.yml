@@ -32,6 +32,7 @@ jobs:
       - name: Build Frontend
         run: |
           echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> $GITHUB_ENV
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV  
           npm run build
         working-directory: frontend
 
@@ -84,3 +85,5 @@ jobs:
           app-name: "BookIt"
           slot-name: "Production"
           package: release.zip
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
