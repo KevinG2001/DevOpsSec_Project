@@ -18,7 +18,7 @@ function useBookings() {
       try {
         setLoading(true);
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/bookings/all/${Number(userId)}`
+          `${import.meta.env.VITE_API_URL}/api/bookings/all/${Number(userId)}`
         );
         setBookings(response.data);
       } catch (err: any) {
@@ -39,13 +39,13 @@ function useBookings() {
 
     try {
       await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/bookings/create`,
+        `${import.meta.env.VITE_API_URL}/api/bookings/create`,
         newBooking
       );
       setSuccess(true);
       if (userId) {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/bookings/all/${Number(userId)}`
+          `${import.meta.env.VITE_API_URL}/api/bookings/all/${Number(userId)}`
         );
         setBookings(response.data);
       }
@@ -62,7 +62,7 @@ function useBookings() {
   const deleteBooking = async (bookingid: number) => {
     try {
       await axios.delete(
-        `${process.env.REACT_APP_API_URL}/api/bookings/delete/${bookingid}`
+        `${import.meta.env.VITE_API_URL}/api/bookings/delete/${bookingid}`
       );
       setBookings((prev) => prev.filter((b) => b.bookingid !== bookingid));
     } catch (err) {

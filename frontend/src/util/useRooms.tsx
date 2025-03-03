@@ -29,7 +29,7 @@ function useRooms(room: Room | null, refreshRooms?: () => void) {
 
     try {
       await axios.put(
-        `${process.env.REACT_APP_API_URL}/rooms/update/${room.roomid}`,
+        `${import.meta.env.VITE_API_URL}/rooms/update/${room.roomid}`,
         {
           roomname,
           roomdescription,
@@ -48,7 +48,7 @@ function useRooms(room: Room | null, refreshRooms?: () => void) {
   const deleteRoom = async (roomid: number) => {
     try {
       await axios.delete(
-        `${process.env.REACT_APP_API_URL}/rooms/delete/${roomid}`
+        `${import.meta.env.VITE_API_URL}/rooms/delete/${roomid}`
       );
       refreshRooms?.();
     } catch (err) {

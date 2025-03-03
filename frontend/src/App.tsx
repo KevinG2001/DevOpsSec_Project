@@ -13,6 +13,7 @@ import Bookings from "./pages/Bookings";
 import AdminDashboard from "./pages/AdminDashboard";
 
 function Layout() {
+  console.log("API URL:", import.meta.env.VITE_API_URL);
   const location = useLocation();
 
   const hideNavbar =
@@ -28,7 +29,7 @@ function Layout() {
         <Route
           path="/rooms"
           element={
-            <RoomList fetchUrl={`${process.env.REACT_APP_API_URL}/rooms/all`} />
+            <RoomList fetchUrl={`${import.meta.env.VITE_API_URL}/rooms/all`} />
           }
         />
 

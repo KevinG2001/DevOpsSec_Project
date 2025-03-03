@@ -14,7 +14,7 @@ const useAdminData = (endpoint: string) => {
 
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL}/${endpoint}`
+          `${import.meta.env.VITE_API_URL}/${endpoint}`
         );
         if (!response.ok) throw new Error("Failed to fetch data");
 

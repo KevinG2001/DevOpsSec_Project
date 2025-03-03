@@ -5,7 +5,7 @@ function Home() {
     <div>
       <div></div>
       <div>
-        <RoomList fetchUrl={`${process.env.REACT_APP_API_URL}/rooms/latest`} />
+        <RoomList fetchUrl={`${import.meta.env.VITE_API_URL}/rooms/latest`} />
       </div>
     </div>
   );
