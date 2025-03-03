@@ -9,6 +9,7 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate(); // Initialize useNavigate
   console.log("API URL using VITE/import meta:", import.meta.env.VITE_API_URL);
+  console.log("API using process.env : ", process.env.VITE_API_URL);
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
