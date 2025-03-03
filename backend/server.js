@@ -10,8 +10,13 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-//Running frontend from backend
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// Serve frontend from backend/public/dist
+app.use(express.static(path.join(__dirname, "public", "dist")));
+
+// Catch-all route to serve index.html for React Router
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "dist", "index.html"));
+});
 
 //Routes
 const usersRoute = require("./routes/users");

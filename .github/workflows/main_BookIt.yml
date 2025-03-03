@@ -25,18 +25,25 @@ jobs:
         run: npm install
         working-directory: backend
 
-      - name: Build Backend (Including Frontend)
+      - name: Install Frontend Dependencies
+        run: npm install
+        working-directory: frontend
+
+      - name: Build Frontend
         run: npm run build
-        working-directory: backend
+        working-directory: frontend
 
-      - name: Check Frontend Build
-        run: ls -l frontend/dist
+      - name: Copy Frontend Build to Backend
+        run: cp -r frontend/dist backend/public
 
-      - name: Zip backend for deployment
+      - name: Verify Files in Backend
+        run: ls -l backend/public
+
+      - name: Zip Backend for Deployment
         run: zip -r release.zip .
         working-directory: backend
 
-      - name: Upload deployment artifact
+      - name: Upload Deployment Artifact
         uses: actions/upload-artifact@v4
         with:
           name: node-app
@@ -53,12 +60,12 @@ jobs:
       contents: read
 
     steps:
-      - name: Download build artifact
+      - name: Download Build Artifact
         uses: actions/download-artifact@v4
         with:
           name: node-app
 
-      - name: Unzip deployment package
+      - name: Unzip Deployment Package
         run: unzip release.zip
 
       - name: Login to Azure
