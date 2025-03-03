@@ -18,7 +18,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "dist", "index.html"));
 });
 
-//Routes
+// Routes
 const usersRoute = require("./routes/users");
 app.use("/users", usersRoute);
 
@@ -36,12 +36,13 @@ app.get("/", (req, res) => {
   res.json({ message: "Backend is running!" });
 });
 
-// Only start the server if not in test mode
-if (process.env.NODE_ENV !== "test") {
-  app.listen(PORT, "0.0.0.0", () => {
+app
+  .listen(PORT, "0.0.0.0", () => {
     console.log(`Server is running on http://localhost:${PORT}`);
+  })
+  .on("error", (err) => {
+    console.error("Failed to start server:", err);
   });
-}
 
 // Export app for testing
 module.exports = app;
