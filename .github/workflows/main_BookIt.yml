@@ -37,7 +37,7 @@ jobs:
         run: ls -l backend/public
 
       - name: Zip Backend for Deployment
-        run: zip -r release.zip backend/public
+        run: zip -r release.zip backend/public/dist
 
       - name: Verify release.zip exists
         run: ls -l backend
