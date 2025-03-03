@@ -33,10 +33,7 @@ jobs:
         run: npm run build
         working-directory: frontend
 
-      - name: Copy Frontend Build to Backend
-        run: cp -r frontend/dist backend/public
-
-      - name: Verify Files in Backend
+      - name: Verify Frontend Build Location
         run: ls -l backend/public
 
       - name: Zip Backend for Deployment
