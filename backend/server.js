@@ -26,11 +26,6 @@ app.use("/api/bookings", bookingsRoutes);
 const authRoutes = require("./routes/auth");
 app.use("/api/auth", authRoutes);
 
-// Test route
-app.get("/", (req, res) => {
-  res.json({ message: "Backend is running!" });
-});
-
 // Serve the frontend index.html if no API route matches
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "dist", "index.html"));
