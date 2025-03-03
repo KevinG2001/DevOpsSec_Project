@@ -34,7 +34,7 @@ jobs:
         working-directory: frontend
 
       - name: Zip Backend for Deployment
-        run: zip -r backend/release.zip .
+        run: zip -r backend/release.zip
         working-directory: backend
 
       - name: Upload Deployment Artifact
