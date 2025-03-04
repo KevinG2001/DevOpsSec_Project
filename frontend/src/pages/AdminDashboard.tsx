@@ -6,9 +6,9 @@ function AdminDashboard() {
   const [selectedTable, setSelectedTable] = useState("");
 
   let endpoint = "";
-  if (selectedTable === "Users") endpoint = "/api/users";
-  if (selectedTable === "Rooms") endpoint = "/api/rooms/all";
-  if (selectedTable === "Bookings") endpoint = "/api/bookings/all";
+  if (selectedTable === "Users") endpoint = "api/users";
+  if (selectedTable === "Rooms") endpoint = "api/rooms/all";
+  if (selectedTable === "Bookings") endpoint = "api/bookings/all";
 
   const { data, loading, error } = useAdminData(endpoint);
 
