@@ -1,16 +1,15 @@
 const { Pool } = require("pg");
-const fs = require("fs");
 require("dotenv").config();
 
 const pool = new Pool({
-  host: "bookitdbser.postgres.database.azure.com",
-  user: "DevOpsAdmin",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: "postgres",
-  port: 5432,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 5432,
   ssl: {
     rejectUnauthorized: true,
-    ca: fs.readFileSync("certs/ca-cert.pem").toString(),
+    ca: Buffer.from(process.env.DB_SSL_CERT, "base64").toString(),
   },
 });
 
