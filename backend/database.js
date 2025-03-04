@@ -1,6 +1,8 @@
 const { Pool } = require("pg");
 require("dotenv").config();
 
+console.log("Initializing database connection...");
+
 const pool = new Pool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
