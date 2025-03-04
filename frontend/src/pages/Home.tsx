@@ -5,7 +5,7 @@ function Home() {
     <div>
       <div></div>
       <div>
-        <RoomList fetchUrl="http://localhost:5000/rooms/latest" />
+        <RoomList fetchUrl="api/rooms/latest" />
       </div>
     </div>
   );
