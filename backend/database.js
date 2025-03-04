@@ -1,15 +1,22 @@
 const { Pool } = require("pg");
-const dotenv = require("dotenv");
-
-dotenv.config();
+const fs = require("fs");
+require("dotenv").config();
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
+  host: "bookitdbser.postgres.database.azure.com",
+  user: "DevOpsAdmin",
+  password: process.env.DB_PASSWORD,
+  database: "postgres",
+  port: 5432,
+  ssl: {
+    rejectUnauthorized: true,
+    ca: fs.readFileSync("certs/ca-cert.pem").toString(),
+  },
 });
 
 pool
   .connect()
-  .then(() => console.log("Connected to PostgreSQL"))
+  .then(() => console.log("Connected to PostgreSQL on Azure"))
   .catch((err) => console.error("PostgreSQL connection error:", err));
 
 module.exports = pool;
