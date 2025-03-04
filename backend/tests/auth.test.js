@@ -1,19 +1,40 @@
 const request = require("supertest");
-const app = require("../server"); 
-const pool = require("../database"); // Import database for test cleanup
+const app = require("../server");
+const pool = require("../database");
 
 require("dotenv").config();
-process.env.NODE_ENV = "test"; // Ensure test mode
+process.env.NODE_ENV = "test";
+
+jest.setTimeout(30000);
 
 describe("Authentication API Tests", () => {
   beforeAll(async () => {
-    // Clear test users before running tests
-    await pool.query("DELETE FROM users WHERE email = 'test@example.com'");
+    console.log("Clearing test users before running tests...");
+    try {
+      await pool.query("DELETE FROM users WHERE email = 'test@example.com'");
+    } catch (error) {
+      console.error("Error clearing test users:", error);
+    }
+  });
+
+  afterEach(async () => {
+    console.log("Cleaning up test users...");
+    try {
+      await pool.query("DELETE FROM users WHERE email = 'test@example.com'");
+    } catch (error) {
+      console.error("Error cleaning up test users:", error);
+    }
   });
 
   afterAll(async () => {
-    // Close database connection after tests
-    await pool.end();
+    console.log("Closing database connection...");
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await pool.end({ timeout: 5000 });
+      console.log("Database connection closed successfully");
+    } catch (error) {
+      console.error("Error closing database connection:", error);
+    }
   });
 
   it("should register a new user", async () => {
@@ -31,10 +52,18 @@ describe("Authentication API Tests", () => {
   });
 
   it("should not register a user with an existing email", async () => {
+    await request(app).post("/api/auth/register").send({
+      firstname: "John",
+      surname: "Doe",
+      email: "test@example.com",
+      password: "password123",
+      isAdmin: false,
+    });
+
     const res = await request(app).post("/api/auth/register").send({
       firstname: "John",
       surname: "Doe",
-      email: "test@example.com", 
+      email: "test@example.com",
       password: "password123",
       isAdmin: false,
     });
@@ -44,6 +73,14 @@ describe("Authentication API Tests", () => {
   });
 
   it("should log in an existing user", async () => {
+    await request(app).post("/api/auth/register").send({
+      firstname: "John",
+      surname: "Doe",
+      email: "test@example.com",
+      password: "password123",
+      isAdmin: false,
+    });
+
     const res = await request(app).post("/api/auth/login").send({
       email: "test@example.com",
       password: "password123",
