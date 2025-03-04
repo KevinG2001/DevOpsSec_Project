@@ -2,6 +2,11 @@ const { Pool } = require("pg");
 require("dotenv").config();
 
 console.log("Initializing database connection...");
+console.log("Database URL:", process.env.DATABASE_URL);
+
+const sslCert = process.env.DB_SSL_CERTIFICATE
+  ? Buffer.from(process.env.DB_SSL_CERTIFICATE, "base64").toString()
+  : null;
 
 const pool = new Pool({
   host: process.env.DB_HOST,
@@ -9,10 +14,7 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT || 5432,
-  ssl: {
-    rejectUnauthorized: true,
-    ca: Buffer.from(process.env.DB_SSL_CERT, "base64").toString(),
-  },
+  ssl: { rejectUnauthorized: false },
 });
 
 pool
