@@ -31,6 +31,7 @@ jobs:
     env:
       DATABASE_URL: postgresql://testuser:testpassword@localhost:5432/testdb
       NODE_ENV: test
+      CI: true
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
     steps:
@@ -50,7 +51,7 @@ jobs:
       - name: Run Database Migrations
         run: |
           cd backend
-          npm run migrate  # Runs knex migrate:latest
+          npm run migrate
 
       - name: Run Tests
         run: |

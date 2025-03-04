@@ -17,7 +17,7 @@ module.exports = {
 
   test: {
     client: "pg",
-    connection: process.env.DATABASE_URL.replace("hotel_booking", "testdb"),
+    connection: process.env.DATABASE_URL,
     migrations: {
       directory: "./migrations",
     },
