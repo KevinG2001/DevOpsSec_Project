@@ -10,9 +10,7 @@ function AdminDashboard() {
   if (selectedTable === "Rooms") endpoint = "api/rooms/all";
   if (selectedTable === "Bookings") endpoint = "api/bookings/all";
 
-  const { data, loading, error } = useAdminData(endpoint);
-
-  console.log("Admin Data:", data);
+  const { data, loading, error, deleteItem } = useAdminData(endpoint);
 
   return (
     <div className={styles.container}>
@@ -64,10 +62,11 @@ function AdminDashboard() {
                           key.toLowerCase() !== "isadmin"
                       )
                       .map((key) => <th key={key}>{key}</th>)}
+                  <th>Options</th>
                 </tr>
               </thead>
               <tbody>
-                {(data as any[]).map((item, index) => (
+                {data.map((item, index) => (
                   <tr key={index}>
                     {Object.entries(item)
                       .filter(
@@ -78,6 +77,15 @@ function AdminDashboard() {
                       .map(([_, value], i) => (
                         <td key={i}>{String(value)}</td>
                       ))}
+                    <td>
+                      <button className={styles.editButton}>Edit</button>
+                      <button
+                        className={styles.removeButton}
+                        onClick={() => deleteItem(item, selectedTable)}
+                      >
+                        Remove
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

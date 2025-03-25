@@ -30,7 +30,41 @@ const useAdminData = (endpoint: string) => {
     fetchData();
   }, [endpoint]);
 
-  return { data, loading, error };
+  const deleteItem = async (item: any, type: string) => {
+    try {
+      let idField = "";
+      if (type === "Bookings") idField = "bookingid";
+      if (type === "Users") idField = "userid";
+      if (type === "Rooms") idField = "roomid";
+
+      const id = item[idField];
+
+      if (!id) {
+        throw new Error("Item ID is missing.");
+      }
+
+      let url = "";
+      if (type === "Bookings") url = `/api/bookings/delete/${id}`;
+      if (type === "Users") url = `/api/users/delete/${id}`;
+      if (type === "Rooms") url = `/api/rooms/delete/${id}`;
+
+      const response = await fetch(url, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage || "Failed to delete item");
+      }
+
+      setData((prev) => prev.filter((item) => item[idField] !== id));
+    } catch (err) {
+      console.error("Error deleting item:", err);
+      setError("Failed to delete item.");
+    }
+  };
+
+  return { data, loading, error, deleteItem };
 };
 
 export default useAdminData;
