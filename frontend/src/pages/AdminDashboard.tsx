@@ -41,7 +41,7 @@ function AdminDashboard() {
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type, checked, value } = e.target;
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
