@@ -28,12 +28,13 @@
 }
 
 .button,
-.activeButton {  // Apply styles to both buttons
+.activeButton {
+  // Apply styles to both buttons
   background: #292929;
   color: #ff6b6b;
   border: none;
   padding: 10px 20px;
-  border-radius: 6px;  // Ensure rounded corners
+  border-radius: 6px; // Ensure rounded corners
   cursor: pointer;
   font-size: 1rem;
   transition: all 0.3s ease;
@@ -61,7 +62,8 @@
   overflow: hidden;
 }
 
-th, td {
+th,
+td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #333;
@@ -87,4 +89,131 @@ tr:hover {
   color: #ff6b6b;
   text-align: center;
   font-size: 1.2rem;
+}
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Darker background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.modalContent {
+  background-color: #292929;
+  padding: 30px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalContent h2 {
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.inputGroup {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background-color: #1e1e1e;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.inputGroup input:focus {
+  border-color: #ff6b6b;
+  outline: none;
+}
+
+button {
+  padding: 12px 20px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.saveButton {
+  background-color: #4caf50;
+  color: white;
+  width: 100%;
+  font-weight: bold;
+}
+
+.saveButton:hover {
+  background-color: #45a049;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.8rem;
+  color: #ff6b6b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close:hover {
+  color: #ff0000;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.saveButton {
+  background-color: #4caf50;
+  color: white;
+  width: 48%;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.saveButton:hover {
+  background-color: #45a049;
+}
+
+.cancelButton {
+  background-color: #f44336;
+  color: white;
+  width: 48%;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.cancelButton:hover {
+  background-color: #e53935;
 }
