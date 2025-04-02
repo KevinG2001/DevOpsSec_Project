@@ -11,7 +11,7 @@
 }
 
 .auth-card {
-  background: rgba(30, 30, 30, 0.85); 
+  background: rgba(30, 30, 30, 0.85);
   backdrop-filter: blur(10px);
   padding: 2rem;
   border-radius: 12px;
@@ -47,7 +47,7 @@ form {
   background: #2c2c2c;
   color: #ffffff;
   transition: all 0.3s ease-in-out;
-  
+
   &:focus {
     outline: none;
     border: 2px solid #ff6b6b;
@@ -66,7 +66,7 @@ form {
   margin-top: 1rem;
   transition: all 0.3s ease-in-out;
   font-weight: bold;
-  
+
   &:hover {
     background: #ff4b4b;
     transform: scale(1.05);
@@ -93,7 +93,7 @@ form {
   text-decoration: none;
   font-weight: bold;
   transition: all 0.3s ease-in-out;
-  
+
   &:hover {
     text-decoration: underline;
     color: #ff4b4b;
@@ -101,7 +101,17 @@ form {
 }
 
 .logo {
-  width: 300px; 
+  width: 300px;
   margin-bottom: 1rem; // Space between logo and form
-  border-radius: 10px; 
+  border-radius: 10px;
+}
+
+.userInfo {
+  background-color: #ff6b6b;
+  padding: 26px;
+  font-size: larger;
+  border-radius: 20px;
+  position: absolute;
+  top: 50%;
+  left: 0;
 }
