@@ -17,6 +17,8 @@ router.delete("/delete/:userid", async (req, res) => {
   const { userid } = req.params;
 
   try {
+    await pool.query("DELETE FROM bookings WHERE userid = $1", [userid]);
+
     const result = await pool.query(
       "DELETE FROM users WHERE userid = $1 RETURNING *",
       [userid]
@@ -27,7 +29,7 @@ router.delete("/delete/:userid", async (req, res) => {
     }
 
     res.status(200).json({
-      message: "User deleted successfully",
+      message: "User and associated bookings deleted successfully",
     });
   } catch (error) {
     console.error(error);
