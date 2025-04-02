@@ -34,6 +34,10 @@ const Login: React.FC = () => {
 
   return (
     <div className={styles.authContainer}>
+      <div className={styles.userInfo}>
+        <div>Username:</div>
+        <div>Password:</div>
+      </div>
       <img src="/BookIt.jpg" alt="BookIt Logo" className={styles.logo} />
 
       <div className={styles.authCard}>
