@@ -35,6 +35,7 @@ const Login: React.FC = () => {
   return (
     <div className={styles.authContainer}>
       <div className={styles.userInfo}>
+        <div>Default Admin</div>
         <div>Username: admin@hotel</div>
         <div>Password: admin</div>
       </div>
